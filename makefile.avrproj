@@ -1,0 +1,41 @@
+
+# AVR Programmer flags
+PRGFLAGS = -c avrispmkII -P usb
+
+# programs
+TOOLPATH=/usr/local/CrossPack-AVR/bin
+
+CC = $(TOOLPATH)/avr-gcc
+LD = $(TOOLPATH)/avr-ld
+OC = $(TOOLPATH)/avr-objcopy
+SIZE = $(TOOLPATH)/avr-size
+AVRDUDE = $(TOOLPATH)/avrdude
+
+# compile flags
+CFLAGS = -Wall -O1 -mmcu=$(CPUTYPE)
+LDFLAGS =
+LDLIBS =
+OCHEXFLAGS = -R .eeprom -O ihex 
+
+# Make rules
+$(ELF) : $(OBJS)
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LDLIBS)
+
+%.o: %.c
+	$(CC) -c $(CFLAGS) $< -o $@
+	
+clean: 
+	rm -f *.o $(ELF) $(HEX) *.pyc
+
+size:
+	$(SIZE) $(ELF)
+	
+# AVR HW programming rules
+flash : $(ELF)
+	$(OC) $(OCHEXFLAGS) $(ELF) $(HEX)
+	$(AVRDUDE) -p $(AVRDUDECPUTYPE) $(PRGFLAGS) -U flash:w:$(HEX)
+
+fuses : 
+	$(AVRDUDE) -V -p $(AVRDUDECPUTYPE) $(PRGFLAGS) $(CPUFUSEFLAGS)
+	
+	
