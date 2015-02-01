@@ -11,3 +11,7 @@
 # OS X crap
 .DS_Stor?
 
+# Eagle backup files
+*.b#?
+*.s#?
+
