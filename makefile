@@ -17,7 +17,7 @@ ELF = $(PROJNAME).elf
 HEX = $(PROJNAME).hex
 
 # object file list
-OBJS = main.o pwm_timer.o adc.o
+OBJS = main.o pwm_timer.o adc.o spi.o
 
 include makefile.avrproj
 

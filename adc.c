@@ -3,6 +3,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
+#include "spi.h"
 
 // ADC latest values
 struct adc_data {
@@ -59,6 +60,7 @@ inline void setpwm(uint8_t value) {  // update PWM output registers
 	}
 	OCR0A=value;
 	OCR0B=value;
+	spi_write_word(value << 4);
 }
 
 void env_update(uint8_t rate, uint8_t targetlevel_8) {
@@ -117,7 +119,7 @@ void state_env() {
 	uint8_t mode_gate ;	// gated or triggered mode?
 	static uint8_t stage = LOW ; 	// curremt ENV stage
 	
-	gate = ( PINB & 0x01 );	// check gate input pin
+	gate = ( ~PINB & 0x01 );	// check gate input pin
 	mode_gate = ( PINB & 0x02 ); // 0=trig, 1=gate
 	
 	if ( prev_gate_level == 0 ) {	
@@ -131,6 +133,14 @@ void state_env() {
 			prev_gate_level = 0 ;
 		}
 	}
+	
+	// copy gate state to GATE THRU output (PA7)
+	if (gate) {
+		PORTA |= _BV(PA7);
+	} else {
+		PORTA &= ~_BV(PA7);
+	}
+	
 	
 	// state machine 
 	switch (stage) {
