@@ -15560,6 +15560,9 @@ Source: www.kingbright.com</description>
 <part name="JP2" library="pinhead" deviceset="PINHD-1X3" device=""/>
 <part name="P+4" library="supply1" deviceset="+5V" device=""/>
 <part name="GND18" library="supply1" deviceset="GND" device=""/>
+<part name="R18" library="rcl" deviceset="R-EU_" device="0207/2V" value="100k"/>
+<part name="R19" library="rcl" deviceset="R-EU_" device="0207/2V" value="100k"/>
+<part name="GND19" library="supply1" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -15571,7 +15574,7 @@ Source: www.kingbright.com</description>
 <text x="38.1" y="157.48" size="1.778" layer="91">AD / ASR switch</text>
 <text x="320.04" y="63.5" size="1.778" layer="91">CV level Indicator LED</text>
 <text x="320.04" y="91.44" size="1.778" layer="91">GATE Indicator LED</text>
-<text x="241.3" y="162.56" size="1.778" layer="91">Voltage range jumper
+<text x="243.84" y="152.4" size="1.778" layer="91">Voltage range jumper
 To +5V: Bipolar -5 to +5V output
 To GND: Unipolar 0 to +10V output</text>
 </plain>
@@ -15657,6 +15660,9 @@ To GND: Unipolar 0 to +10V output</text>
 <instance part="JP2" gate="A" x="233.68" y="165.1"/>
 <instance part="P+4" gate="1" x="238.76" y="175.26"/>
 <instance part="GND18" gate="1" x="238.76" y="154.94"/>
+<instance part="R18" gate="G$1" x="279.4" y="182.88"/>
+<instance part="R19" gate="G$1" x="269.24" y="175.26" rot="R90"/>
+<instance part="GND19" gate="1" x="269.24" y="165.1"/>
 </instances>
 <busses>
 </busses>
@@ -15730,8 +15736,13 @@ To GND: Unipolar 0 to +10V output</text>
 </segment>
 <segment>
 <pinref part="CV1IN" gate="G$1" pin="RING"/>
-<wire x1="236.22" y1="223.52" x2="243.84" y2="223.52" width="0.1524" layer="91"/>
+<wire x1="236.22" y1="223.52" x2="238.76" y2="223.52" width="0.1524" layer="91"/>
 <pinref part="GND8" gate="1" pin="GND"/>
+<pinref part="CV1IN" gate="G$1" pin="NORM"/>
+<wire x1="238.76" y1="223.52" x2="243.84" y2="223.52" width="0.1524" layer="91"/>
+<wire x1="236.22" y1="220.98" x2="238.76" y2="220.98" width="0.1524" layer="91"/>
+<wire x1="238.76" y1="220.98" x2="238.76" y2="223.52" width="0.1524" layer="91"/>
+<junction x="238.76" y="223.52"/>
 </segment>
 <segment>
 <pinref part="CV_OUT" gate="G$1" pin="RING"/>
@@ -15826,6 +15837,11 @@ To GND: Unipolar 0 to +10V output</text>
 <wire x1="231.14" y1="162.56" x2="238.76" y2="162.56" width="0.1524" layer="91"/>
 <wire x1="238.76" y1="162.56" x2="238.76" y2="157.48" width="0.1524" layer="91"/>
 <pinref part="GND18" gate="1" pin="GND"/>
+</segment>
+<segment>
+<pinref part="R19" gate="G$1" pin="1"/>
+<pinref part="GND19" gate="1" pin="GND"/>
+<wire x1="269.24" y1="170.18" x2="269.24" y2="167.64" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="+5V" class="0">
@@ -16087,13 +16103,11 @@ To GND: Unipolar 0 to +10V output</text>
 <pinref part="IC2" gate="B" pin="OUT"/>
 <pinref part="R7" gate="G$1" pin="1"/>
 <wire x1="287.02" y1="195.58" x2="289.56" y2="195.58" width="0.1524" layer="91"/>
-<pinref part="IC2" gate="B" pin="-IN"/>
 <wire x1="289.56" y1="195.58" x2="297.18" y2="195.58" width="0.1524" layer="91"/>
-<wire x1="271.78" y1="193.04" x2="269.24" y2="193.04" width="0.1524" layer="91"/>
-<wire x1="269.24" y1="193.04" x2="269.24" y2="187.96" width="0.1524" layer="91"/>
-<wire x1="269.24" y1="187.96" x2="289.56" y2="187.96" width="0.1524" layer="91"/>
-<wire x1="289.56" y1="187.96" x2="289.56" y2="195.58" width="0.1524" layer="91"/>
+<wire x1="289.56" y1="182.88" x2="289.56" y2="195.58" width="0.1524" layer="91"/>
 <junction x="289.56" y="195.58"/>
+<pinref part="R18" gate="G$1" pin="2"/>
+<wire x1="289.56" y1="182.88" x2="284.48" y2="182.88" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$11" class="0">
@@ -16299,6 +16313,19 @@ To GND: Unipolar 0 to +10V output</text>
 <wire x1="218.44" y1="172.72" x2="218.44" y2="165.1" width="0.1524" layer="91"/>
 <pinref part="JP2" gate="A" pin="2"/>
 <wire x1="218.44" y1="165.1" x2="231.14" y2="165.1" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$13" class="0">
+<segment>
+<pinref part="IC2" gate="B" pin="-IN"/>
+<wire x1="271.78" y1="193.04" x2="269.24" y2="193.04" width="0.1524" layer="91"/>
+<pinref part="R18" gate="G$1" pin="1"/>
+<wire x1="274.32" y1="182.88" x2="269.24" y2="182.88" width="0.1524" layer="91"/>
+<wire x1="269.24" y1="182.88" x2="269.24" y2="187.96" width="0.1524" layer="91"/>
+<pinref part="R19" gate="G$1" pin="2"/>
+<wire x1="269.24" y1="187.96" x2="269.24" y2="193.04" width="0.1524" layer="91"/>
+<wire x1="269.24" y1="182.88" x2="269.24" y2="180.34" width="0.1524" layer="91"/>
+<junction x="269.24" y="182.88"/>
 </segment>
 </net>
 </nets>
